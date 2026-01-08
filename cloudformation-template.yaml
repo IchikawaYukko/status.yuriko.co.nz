@@ -20,4 +20,19 @@ Resources:
       Tags:
         - Key: awsApplication
           Value: !Sub arn:aws:resource-groups:${AWS::Region}:${AWS::AccountId}:group/Monitoring/05xiogayffmqq2ceul7z4fdmsv
+      LifecycleConfiguration:
+        TransitionDefaultMinimumObjectSize: all_storage_classes_128K
+        Rules:
+          - Status: Enabled
+            Id: archive-non-current-version
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 30
+            Prefix: ''
+            NoncurrentVersionTransitions:
+              - StorageClass: STANDARD_IA
+                TransitionInDays: 30
+              - StorageClass: ONEZONE_IA
+                TransitionInDays: 60
+              - StorageClass: DEEP_ARCHIVE
+                TransitionInDays: 180
     DeletionPolicy: Retain
