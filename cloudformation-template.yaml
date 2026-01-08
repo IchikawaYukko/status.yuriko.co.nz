@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: status.yuriko.co.nz
+Resources:
+  AssetBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: status.yuriko.co.nz
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: false
+            ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: awsApplication
+          Value: !Sub arn:aws:resource-groups:${AWS::Region}:${AWS::AccountId}:group/Monitoring/05xiogayffmqq2ceul7z4fdmsv
+    DeletionPolicy: Retain
