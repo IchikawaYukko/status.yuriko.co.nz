@@ -36,3 +36,22 @@ Resources:
               - StorageClass: DEEP_ARCHIVE
                 TransitionInDays: 180
     DeletionPolicy: Retain
+  IAMRoleStatusYurikoCoNzLambda:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    Properties:
+      Path: "/service-role/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      - "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
+      - !Sub arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSLambdaBasicExecutionRole-ef255690-f70c-4404-967e-cdb8cf1a3636
+      - "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess"
+      MaxSessionDuration: 3600
+      RoleName: status-yuriko-co-nz-role-e8lm476y
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "lambda.amazonaws.com"
